@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 using MicroscopeSystemDriver;
 
@@ -60,10 +61,8 @@ namespace MicroscopeSystemDriver
 
         private void getZButton_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("G INPUT_OFFSET wurde geschickt");
             PortMicroscope.Write("G INPUT_OFFSET");
-
-            getZLabel.Text = microscopeData.micPosZ.ToString();
+             getZLabel.Text = microscopeData.micPosZ.ToString();
         }
 
         private void setXButton_Click(object sender, EventArgs e)
