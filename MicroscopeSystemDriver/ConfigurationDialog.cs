@@ -62,7 +62,8 @@ namespace MicroscopeSystemDriver
         private void getZButton_Click(object sender, EventArgs e)
         {
             PortMicroscope.Write("G INPUT_OFFSET");
-             getZLabel.Text = microscopeData.micPosZ.ToString();
+
+            getZLabel.Text = microscopeData.micPosZ.ToString();
         }
 
         private void setXButton_Click(object sender, EventArgs e)
