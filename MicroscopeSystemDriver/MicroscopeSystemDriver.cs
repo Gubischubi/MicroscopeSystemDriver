@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using Shz.Imros.DeviceDriver;
 using Shz.Imros.Utils;
 using System.Threading;
-
+using MicroscopeDriver;
 
 
 namespace MicroscopeSystemDriver
@@ -38,9 +38,10 @@ namespace MicroscopeSystemDriver
 
         #region Properties
 
-        private Communication_RS232 xyTable;                                    // define a new xyTable
-        public static Communication_RS232 MicroscopeModule;                           // define a new MicroscopeModule
-        private IntelligentMicroplateReader dataMicroscope = new IntelligentMicroplateReader(MicroscopeModule);                   // Helper Class to Store Microscope Data
+        private Communication_RS232 xyTable;                                    // define a new Table
+        private Communication_RS232 MicroscopeModule;                           // define a new MicroscopeModule
+        private Microscope dataMicroscope = new Microscope();
+        private Table dataTable = new Table();
 
 
         private const string _TemperatureSensorName = "Temperature";            // define the sensors of the new device
@@ -77,15 +78,17 @@ namespace MicroscopeSystemDriver
         /// </summary>
         public override void Setup()
         {
-            // create and setup the XY Table
+            // create and setup the incubator
             xyTable = new Communication_RS232();
             xyTable.Open(Config.PortSettingsTable.PortName, Config.PortSettingsTable.BaudRate);
+            //xyTable.PortRecievedMessageEvent += new PortRecievedMessageEventHandler(MessageRecievedEvent);
 
-            // create and setup the Microscope
             MicroscopeModule = new Communication_RS232();
             MicroscopeModule.Open(Config.PortSettingsMicroscope.PortName, Config.PortSettingsMicroscope.BaudRate);
             MicroscopeModule.PortRecievedMessageEvent += new PortRecievedMessageEventHandler(MessageRecievedEvent);
             
+            
+
             // create a queue to handle the temperature data of the incubator
             IncubatorResultQueue = new SynchronizedQueue<IncubatorResult>();
         }
@@ -135,6 +138,20 @@ namespace MicroscopeSystemDriver
             }
         }
         #endregion
+
+        /*public double iMicPosZ
+        {
+            get { return dataMicroscope.z0; }
+            set
+            {
+                //MicroscopeModule.Write("S INPUT_OFFSET " + 1000);
+                System.Diagnostics.Debug.WriteLine("S INPUT_OFFSET " + 1000);
+                //xmlnode = xml_microwellplate.SelectSingleNode(string.Format("/MICROWELLPLATE/Position/{0}_{1}/z0", parameter[0], parameter[1]));
+                //xmlnode.FirstChild.Value = Convert.ToString(value, NumberFormatInfo.InvariantInfo);
+            }
+        }
+        */
+
 
         #region Property: Sensors
         /// <summary>
@@ -232,6 +249,8 @@ namespace MicroscopeSystemDriver
             }
         }
         #endregion
+
+
         
         #region Method: GetIncubatorResults
         /// <summary>
@@ -254,7 +273,7 @@ namespace MicroscopeSystemDriver
         #endregion
         
 
-        #region Event: 
+        #region Event: Incubator Temperatur Measured
         /// <summary>
         /// This event will be fired, when new sensor data can be read out from the incubator
         /// </summary>
@@ -278,7 +297,7 @@ namespace MicroscopeSystemDriver
         /// <returns>True if some settings were changed, otherwise false</returns>
         public override bool Configure()
         {
-            ConfigurationDialog dialog = new ConfigurationDialog(Config, dataMicroscope, MicroscopeModule);
+            ConfigurationDialog dialog = new ConfigurationDialog(Config, dataMicroscope, MicroscopeModule, dataTable, xyTable);
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
