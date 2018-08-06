@@ -141,7 +141,7 @@ namespace MicroscopeSystemDriver
         {
             message = rs232.ReadExisting();
 
-            System.Diagnostics.Debug.WriteLine(Message);
+            System.Diagnostics.Debug.WriteLine("Wir sind hier" + Message);
 
             if (PortRecievedMessageEvent != null)   // event is handled in the calling thread
                 PortRecievedMessageEvent();         // fire the event
