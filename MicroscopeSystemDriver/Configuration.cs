@@ -25,7 +25,7 @@ namespace MicroscopeSystemDriver
         public SerialPortConfiguration PortSettingsTable { get; set; }
         public SerialPortConfiguration PortSettingsMicroscope { get; set; }
 
-         public Configuration()      // constructor -> fill here the structure with the sensible defaults
+        public Configuration()      // constructor -> fill here the structure with the sensible defaults
         {
             PortSettingsTable = new SerialPortConfiguration();
             PortSettingsMicroscope = new SerialPortConfiguration();

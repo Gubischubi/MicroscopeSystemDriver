@@ -139,17 +139,13 @@ namespace MicroscopeSystemDriver
         /// </summary>
         private void rs232_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            if (rs232.BytesToRead >= 8)
-            {
-               message = rs232.ReadLine();
+            message = rs232.ReadExisting();
 
-                System.Diagnostics.Debug.WriteLine("HIER ::: " + Message);
+            System.Diagnostics.Debug.WriteLine( Message );
 
-                if (PortRecievedMessageEvent != null)   // event is handled in the calling thread
-                    PortRecievedMessageEvent();         // fire the event
-
-            }
-        }
+            if (PortRecievedMessageEvent != null)   // event is handled in the calling thread
+                PortRecievedMessageEvent();         // fire the event
+    }
         #endregion
 
         #endregion

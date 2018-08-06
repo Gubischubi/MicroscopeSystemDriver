@@ -270,7 +270,7 @@ namespace MicroscopeSystemDriver
 
             IncubatorResultQueue.Enqueue(result);           // save the data in the queue
             */
-            System.Diagnostics.Debug.WriteLine(MicroscopeModule.Message);
+            System.Diagnostics.Debug.WriteLine( MicroscopeModule.Message );
         }
         #endregion
 
