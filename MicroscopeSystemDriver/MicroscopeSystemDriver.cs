@@ -126,8 +126,11 @@ namespace MicroscopeSystemDriver
         {
             switch (action)
             {
-                case "MeasureTemperature":
-                    //xyTable.GetTemperature();
+                case "InitializeMicroscope":
+
+                    break;
+                case "BlueSignallight":
+  
                     break;
 
                 default:
