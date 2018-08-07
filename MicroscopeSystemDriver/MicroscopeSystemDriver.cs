@@ -38,9 +38,10 @@ namespace MicroscopeSystemDriver
 
         #region Properties
 
-        private Communication_RS232 xyTable;                                    // define a new xyTable
-        public static Communication_RS232 MicroscopeModule;                           // define a new MicroscopeModule
-        private IntelligentMicroplateReader dataMicroscope = new IntelligentMicroplateReader(MicroscopeModule);                   // Helper Class to Store Microscope Data
+        //private static Communication_RS232 xyTableModule;                              // define the Rs232 xyTableModule Module
+        //private static Communication_RS232 MicroscopeModule;                           // define the Rs232 Microscope Module
+
+        private IntelligentMicroplateReader imr;// = new IntelligentMicroplateReader(); // Helper Class to Store Microscope Data
 
 
         private const string _TemperatureSensorName = "Temperature";            // define the sensors of the new device
@@ -62,10 +63,14 @@ namespace MicroscopeSystemDriver
         /// <param name="configReader">A reader to the driver's configuration section</param>
         public override void Init(XmlReader configReader)
         {
-            
+            imr = new IntelligentMicroplateReader();
+
+            System.Diagnostics.Debug.WriteLine("Die Init wird aufgerufen");
             // try to deserialize the xml fragment into the configuration object
             // The default values are used in case of a missing config section
             Config = (Configuration)configReader.ReadFragmentAs(typeof(Configuration));
+
+            imr.MicroscopeComport = Config.MicroscopeComport;       // configurate the comport of the microscope
 
         }
         #endregion
@@ -78,13 +83,13 @@ namespace MicroscopeSystemDriver
         public override void Setup()
         {
             // create and setup the XY Table
-            xyTable = new Communication_RS232();
-            xyTable.Open(Config.PortSettingsTable.PortName, Config.PortSettingsTable.BaudRate);
+            //xyTableModule = new Communication_RS232();
+            //xyTableModule.Open(Config.xyTableComport.PortName, Config.xyTableComport.BaudRate);
 
             // create and setup the Microscope
-            MicroscopeModule = new Communication_RS232();
-            MicroscopeModule.Open(Config.PortSettingsMicroscope.PortName, Config.PortSettingsMicroscope.BaudRate);
-            MicroscopeModule.PortRecievedMessageEvent += new PortRecievedMessageEventHandler(MessageRecievedEvent);
+            //MicroscopeModule = new Communication_RS232();
+            //MicroscopeModule.Open(Config.MicroscopeComport.PortName, Config.MicroscopeComport.BaudRate);
+            //MicroscopeModule.PortRecievedMessageEvent += new PortRecievedMessageEventHandler(MessageRecievedEvent);
             
             // create a queue to handle the temperature data of the incubator
             IncubatorResultQueue = new SynchronizedQueue<IncubatorResult>();
@@ -98,8 +103,8 @@ namespace MicroscopeSystemDriver
         public override void Shutdown()
         {
 
-            xyTable.Close();              // close the connection to the xyTable
-            MicroscopeModule.Close();
+            //xyTableModule.Close();              // close the connection to the xyTable
+            //MicroscopeModule.Close();
 
         }
         #endregion
@@ -266,22 +271,23 @@ namespace MicroscopeSystemDriver
             /*
             IncubatorResult result;
             result.Timestamp = DateTime.UtcNow;             // save the current UTC time
-            result.Temperature = xyTable.Message;     // readout the current incubator temperature
+            result.Temperature = xyTableModule.Message;     // readout the current incubator temperature
 
             IncubatorResultQueue.Enqueue(result);           // save the data in the queue
             */
-            System.Diagnostics.Debug.WriteLine( MicroscopeModule.Message );
+            //System.Diagnostics.Debug.WriteLine( this.Message );
         }
         #endregion
 
         #region Method: Configuration
         /// <summary>
-        /// Shows the dialog to conficurate the device driver
+        /// Shows the dialog to configurate the device driver
         /// </summary>
         /// <returns>True if some settings were changed, otherwise false</returns>
         public override bool Configure()
         {
-            ConfigurationDialog dialog = new ConfigurationDialog(Config, dataMicroscope, MicroscopeModule);
+            System.Diagnostics.Debug.WriteLine("Der Dialog wird geöffnet");
+            ConfigurationDialog dialog = new ConfigurationDialog(Config, imr);
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {

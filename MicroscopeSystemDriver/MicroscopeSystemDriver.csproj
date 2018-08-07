@@ -8,8 +8,8 @@
     <ProjectGuid>{89D278CC-AD9B-4B6D-9BAF-8B0D4A0CF926}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IncubatorDriver</RootNamespace>
-    <AssemblyName>IncubatorDriver</AssemblyName>
+    <RootNamespace>MicroscopeSystemDriver</RootNamespace>
+    <AssemblyName>MicroscopeSystemDriver</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -60,8 +60,10 @@
       <DependentUpon>ConfigurationDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Communication_RS232.cs" />
+    <Compile Include="Microscope.cs" />
     <Compile Include="MicroscopeSystemDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="xyTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConfigurationDialog.resx">

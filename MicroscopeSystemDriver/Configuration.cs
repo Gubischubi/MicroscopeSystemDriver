@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using Shz.Imros.Utils;
+using Shz.Imros.Utils; // for SerialPortConfiguration
 
 namespace MicroscopeSystemDriver
 {
@@ -22,13 +22,13 @@ namespace MicroscopeSystemDriver
         /// <summary>
         /// The settings of the COM-port, where the incubator is connected.
         /// </summary>
-        public SerialPortConfiguration PortSettingsTable { get; set; }
-        public SerialPortConfiguration PortSettingsMicroscope { get; set; }
+        public SerialPortConfiguration xyTableComport { get; set; }
+        public SerialPortConfiguration MicroscopeComport { get; set; }
 
         public Configuration()      // constructor -> fill here the structure with the sensible defaults
         {
-            PortSettingsTable = new SerialPortConfiguration();
-            PortSettingsMicroscope = new SerialPortConfiguration();
+            xyTableComport = new SerialPortConfiguration();
+            MicroscopeComport = new SerialPortConfiguration();
             
         } 
 
