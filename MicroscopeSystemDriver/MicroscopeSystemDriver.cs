@@ -53,7 +53,12 @@ namespace MicroscopeSystemDriver
 
         #endregion
 
-
+        #region Constructor
+        public MicroscopeSystemDriver()
+        {
+            imr = new IntelligentMicroplateReader();
+        }
+        #endregion
 
         #region Method: Init
         /// <summary>
@@ -63,14 +68,17 @@ namespace MicroscopeSystemDriver
         /// <param name="configReader">A reader to the driver's configuration section</param>
         public override void Init(XmlReader configReader)
         {
-            imr = new IntelligentMicroplateReader();
+            
 
             System.Diagnostics.Debug.WriteLine("Die Init wird aufgerufen");
             // try to deserialize the xml fragment into the configuration object
             // The default values are used in case of a missing config section
             Config = (Configuration)configReader.ReadFragmentAs(typeof(Configuration));
 
+            
             imr.MicroscopeComport = Config.MicroscopeComport;       // configurate the comport of the microscope
+
+            
 
         }
         #endregion

@@ -8,7 +8,7 @@ using Shz.Imros.Utils;
 namespace MicroscopeSystemDriver
 {
 
-    class Microscope
+    public class Microscope
     {
         private Communication_RS232 port;
         private SerialPortConfiguration configMic;

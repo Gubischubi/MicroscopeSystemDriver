@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IncubatorDriver
 {
-    class xyTable
+    public class xyTable
     {
 
         public double Y { get; }
